@@ -18,6 +18,7 @@ int main()
 
 	cout << "FCFS average: " << FCFS(a, arrSize) << endl;
 	cout << "SSTF average: " << SSTF(a, arrSize) << endl;
+	cout << "SCAN average: " << SCAN(a, arrSize) << endl;
 	return 0;
 }
 
@@ -74,6 +75,32 @@ double SSTF(int a[], int size)
 		currTrack = nextTrack;
 		if(rTrack == nextTrack) rTrack++; else lTrack--;
 	}
+
+	return sum / (size - 1);
+}
+
+double SCAN(int a[], int size)
+{
+	double sum = 0.0;
+	vector<int> vect(a, a + size);
+
+	//Sort the vector
+	sort(vect.begin(), vect.end());
+	vector<int>::iterator currTrack = find(vect.begin(), vect.end(), a[0]);
+	vector<int>::iterator lTrack = currTrack - 1, rTrack = currTrack + 1;
+
+	//Traverse left part of the track
+	while(lTrack >= vect.begin()) 
+		sum += abs(*(lTrack--) - *(currTrack--));
+
+	//Change direction
+	sum += abs(*currTrack - *rTrack);
+	currTrack = rTrack;
+	rTrack++;
+
+	//Traverse right part of the track
+	while(rTrack != vect.end())
+		sum += abs((*rTrack++) - (*currTrack++));
 
 	return sum / (size - 1);
 }
