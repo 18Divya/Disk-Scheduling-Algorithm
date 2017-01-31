@@ -3,6 +3,7 @@
 #include <iomanip>
 #include <cmath>
 #include <vector>
+#include <ctime>
 
 using namespace std;
 
@@ -13,15 +14,37 @@ double SCAN(int a[], int size);
 
 int main()
 {
+	srand(time(NULL));
 	const size_t arrSize = 9;
-	int a[] = {63,33,72,47,8,99,74,52,75};
+	//int a[arrSize];
+	int a[] = {63, 33, 72, 47, 8, 99, 74, 52, 75};
 
-	cout << "FCFS average: " << FCFS(a, arrSize) << endl;
-	cout << "SSTF average: " << SSTF(a, arrSize) << endl;
-	cout << "SCAN average: " << SCAN(a, arrSize) << endl;
+	//for(int i = 0; i < arrSize; i++)
+	//	a[i] = rand() % 100;
+
+	double average;
+
+	average = FCFS(a, arrSize);
+	cout << "FCFS average: " << average << endl;
+	cout << "FCFS variance: " << variance(a, arrSize, average) << endl << endl;
+	average = SSTF(a, arrSize);
+	cout << "SSTF average: " << average << endl;
+	cout << "SSTF variance: " << variance(a, arrSize, average) << endl << endl;
+	average = SCAN(a, arrSize);
+	cout << "SCAN average: " << average << endl;
+	cout << "SCAN variance: " << variance(a, arrSize, average) << endl << endl;
 	return 0;
 }
 
+/***************************************************
+This function will calculate the variance of the 
+value base on the calculated average depending on the
+formula used.
+	Pre: a - array
+		 size - size of the array
+		 average - average value calculated prev
+	Post: variance value
+****************************************************/
 double variance(int a[], size_t size, int average) 
 {
 	double sum = 0;
@@ -32,6 +55,13 @@ double variance(int a[], size_t size, int average)
 	return sum;
 }	
 
+/***************************************************
+It calculates the average move using FCFS(First 
+Come First Serve) technique.
+	Pre: a - array
+		 size - size of the array
+	Post: average move
+****************************************************/
 double FCFS(int a[], int size)
 {
 	double sum = 0.0;
@@ -42,6 +72,12 @@ double FCFS(int a[], int size)
 	return sum / (size - 1);
 }
 
+/***************************************************
+It calculates the average move using SSTF() technique.
+	Pre: a - array
+		 size - size of the array
+	Post: average move
+****************************************************/
 double SSTF(int a[], int size)
 {
 	double sum = 0.0;
@@ -79,6 +115,12 @@ double SSTF(int a[], int size)
 	return sum / (size - 1);
 }
 
+/***************************************************
+It calculates the average move using SCAN() technique.
+	Pre: a - array
+		 size - size of the array
+	Post: average move
+****************************************************/
 double SCAN(int a[], int size)
 {
 	double sum = 0.0;
